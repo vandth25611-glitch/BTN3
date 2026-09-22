@@ -134,6 +134,23 @@ st.sidebar.markdown(f"""
 # Lấy dữ liệu của SKU được chọn
 sku_data = filtered_df[filtered_df['Product ID'] == selected_sku].sort_values('Date')
 
+# Tính toán các chỉ số thống kê cốt lõi của SKU phục vụ các Tab
+if len(sku_data) > 0:
+    e = sku_data['Units Sold'] - sku_data['Demand Forecast']
+    bias = float(e.mean())
+    s2 = float(e.var(ddof=1))
+    sigma = float(e.std(ddof=1))
+    mean_fc = float(sku_data['Demand Forecast'].mean())
+    mean_sold = float(sku_data['Units Sold'].mean())
+    safety_stock = float(z_score * sigma)
+    p90_adj = float(mean_fc + bias + safety_stock)
+    rop_val = float((mean_sold * lead_time_input) + safety_stock)
+else:
+    e = pd.Series(dtype=float)
+    bias, s2, sigma = 0.0, 0.0, 1.0
+    mean_fc, mean_sold = 0.0, 0.0
+    safety_stock, p90_adj, rop_val = 0.0, 0.0, 0.0
+
 # ==================== CÁC TAB NỘI DUNG ====================
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📊 Tổng quan & EDA", 
@@ -184,16 +201,6 @@ with tab2:
     st.subheader("2. Đo Lường Sai Số Dự Báo & Xác Định Phân Vị Hiệu Chỉnh P90 (Slide Chương 4)")
     
     if len(sku_data) > 0:
-        e = sku_data['Units Sold'] - sku_data['Demand Forecast']
-        bias = e.mean()
-        s2 = e.var(ddof=1)
-        sigma = e.std(ddof=1)
-        mean_fc = sku_data['Demand Forecast'].mean()
-        mean_sold = sku_data['Units Sold'].mean()
-        safety_stock = z_score * sigma
-        p90_adj = mean_fc + bias + safety_stock
-        rop_val = (mean_sold * lead_time_input) + safety_stock
-        
         m1, m2, m3, m4 = st.columns(4)
         m1.metric("Độ lệch trung bình (Bias)", f"{bias:.2f}", delta="Dự báo thừa" if bias < 0 else "Dự báo thiếu", delta_color="inverse")
         m2.metric("Độ lệch chuẩn sai số (σ)", f"{sigma:.2f}")
@@ -202,7 +209,7 @@ with tab2:
         
         st.markdown(f"""
         ##### Chi tiết công thức tính toán toán học chuẩn mực cho mã {selected_sku}:
-        - **1. Sai số dự báo:** $e_i = y_i - \\hat{y}_i$
+        - **1. Sai số dự báo:** $e_i = y_i - \\hat{{y}}_i$
         - **2. Độ lệch trung bình (Forecast Bias):** $\\text{{Bias}} = \\frac{{1}}{{n}} \\sum e_i = {bias:.2f}$ (mô hình bị thiên lệch âm, cần hiệu chỉnh hạ dự báo thô).
         - **3. Phương sai mẫu:** $s^2 = \\frac{{\\sum (e_i - \\bar{{e}})^2}}{{n - 1}} = {s2:.2f}$
         - **4. Độ lệch chuẩn sai số (công thức căn trùm):** $\\sigma = \\sqrt{{s^2}} = {sigma:.2f}$
