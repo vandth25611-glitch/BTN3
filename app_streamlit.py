@@ -333,7 +333,7 @@ with tab5:
     st.markdown("Bảng tổng hợp đối soát theo đúng định dạng Case Study bài giảng: Phân tích thông số tài chính, tỷ lệ tới hạn $q^*$, chiến lược gán nhãn và lệnh đặt hàng cho 5 nhóm mặt hàng:")
     
     summary_list = [
-        {'Mã SKU': 'P0001', 'Ngành Hàng': 'Electronics', 'Giá Bán (P)': '$55.0', 'Giá Vốn (C)': '$20.0', 'Thanh Lý (S)': '$5.0', 'Cu / Co': '$35 / $15', 'q*': 0.70, 'Chiến Lược Gán Nhãn': 'CÂN BẰNG (Giữ Trung vị)', 'Phân Vị Khớp': 'P70', 'Lệnh Đặt (ROP)': '145 sp'},
+        {'Mã SKU': 'P0001', 'Ngành Hàng': 'Electronics', 'Giá Bán (P)': '$55.0', 'Giá Vốn (C)': '$20.0', 'Thanh Lý (S)': '$5.0', 'Cu / Co': '$35 / $15', 'q*': 0.70, 'Chiến Lược Gán Nhãn': 'CÂN BẰNG (Giữ Trung vị)', 'Phân Vị Khớp': 'P70', 'Lệnh Đặt (ROP)': '141 sp'},
         {'Mã SKU': 'P0002', 'Ngành Hàng': 'Electronics', 'Giá Bán (P)': '$65.0', 'Giá Vốn (C)': '$15.0', 'Thanh Lý (S)': '$5.0', 'Cu / Co': '$50 / $10', 'q*': 0.83, 'Chiến Lược Gán Nhãn': 'TẤN CÔNG (Bảo vệ Doanh thu)', 'Phân Vị Khớp': 'P90', 'Lệnh Đặt (ROP)': '148 sp'},
         {'Mã SKU': 'P0003', 'Ngành Hàng': 'Clothing', 'Giá Bán (P)': '$25.0', 'Giá Vốn (C)': '$18.0', 'Thanh Lý (S)': '$2.0', 'Cu / Co': '$7 / $16', 'q*': 0.30, 'Chiến Lược Gán Nhãn': 'PHÒNG THỦ (Né rủi ro Tồn kho)', 'Phân Vị Khớp': 'P30', 'Lệnh Đặt (ROP)': '128 sp'},
         {'Mã SKU': 'P0004', 'Ngành Hàng': 'Electronics', 'Giá Bán (P)': '$75.0', 'Giá Vốn (C)': '$20.0', 'Thanh Lý (S)': '$5.0', 'Cu / Co': '$55 / $15', 'q*': 0.79, 'Chiến Lược Gán Nhãn': 'TẤN CÔNG (Bảo vệ Doanh thu)', 'Phân Vị Khớp': 'P90', 'Lệnh Đặt (ROP)': '150 sp'},
