@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-HỆ THỐNG PHÂN TÍCH DỰ BÁO NHU CẦU & QUẢN TRỊ TỒN KHO THỜI GIAN THỰC (RETAIL INVENTORY AI)
+HỆ THỐNG PHÂN TÍCH DỰ BÁO NHU CẦU & QUẢN TRỊ TỒN KHO THỜI GIAN THỰC
 ĐỒNG BỘ 100% VỚI TIỂU LUẬN NGHIÊN CỨU BTN_2.docx
-Tác giả: Nhóm học viên UEL (Lâm Thanh Hiền, Đỗ Thị Kim Anh, Lưu Thị Huỳnh Như)
+Tác giả: Nhóm học viên UEL (Lâm Thanh Hiền, Đỗ Thị Kim Anh, Lưu Thị Huỳnh Như, Đào Thị Hồng Vân)
 GVHD: TS. Trần Duy Thanh - Đại học Kinh tế - Luật (ĐHQG-HCM)
 """
 
@@ -360,23 +360,37 @@ with tab5:
         ("SKU P0018 (Phòng thủ)", "16.00 USD", "480 sp", "128 sp", "-352 sp (-73.3%)", "68,400 USD", "41,200 USD", "-27,200 USD", "6,336 USD"),
         ("SKU P0019 (Tấn công)", "15.00 USD", "380 sp", "150 sp", "-230 sp (-60.5%)", "29,800 USD", "31,400 USD", "+1,600 USD", "4,600 USD"),
         ("SKU P0020 (Phòng thủ)", "20.00 USD", "495 sp", "130 sp", "-365 sp (-73.7%)", "69,600 USD", "32,600 USD", "-37,000 USD", "8,030 USD"),
-        ("Tổng cộng toàn chuỗi (20 SKU)", "-", "8,560 sp", "2,788 sp", "-5,772 sp (-67.4%)", "994,000 USD", "711,600 USD", "-282,400 USD (-28.4%)", "110,304 USD/ngày")
+        ("Tổng cộng toàn chuỗi (20 SKU)", "-", "8,560 sp", "2,788 sp", "-5,772 sp (-67.4%)", "994,000 USD", "711,600 USD", "-282,400 USD (-28.4%)", "110,304 USD / Store")
     ]
-    cols_t8 = ["Mã SKU & Chiến Lược", "Phạt Co", "Tồn Cũ", "ROP Mới", "Giảm Tồn Dư", "Tổn Thất Cũ", "Tổn Thất Mới", "Tiết Kiệm Co", "Vốn Giải Phóng"]
+    cols_t8 = ["Mã SKU & Chiến Lược", "Phạt Co", "Tồn Cũ", "ROP Mới", "Giảm Tồn Dư", "Tổn Thất Cũ", "Tổn Thất Mới", "Tiết Kiệm Co", "Vốn Giảm / Store"]
     st.dataframe(pd.DataFrame(sku_breakdown_raw, columns=cols_t8), use_container_width=True)
     
+    st.info("💡 **Ghi chú học thuật về Hiện tượng Trade-off kinh tế trong Bảng 8:** Ở một số SKU nhóm Tấn công (như P0002, P0004...), chi phí tồn dư Co tăng nhẹ (+1.600 USD: từ 32.500 lên 34.100 USD). Đây là bản chất tối ưu Newsvendor: hệ thống chấp nhận duy trì mức tồn P90 (148-150 sp) như một 'khoản phí bảo hiểm' có chủ đích để triệt tiêu hoàn toàn nguy cơ đứt hàng, bảo vệ trọn vẹn doanh thu lãi cao triệu đô.")
+
     st.markdown("---")
     
+    st.write("##### Bảng 9: Tổng Hợp Các Chỉ Số Kinh Tế Vĩ Mô Toàn Chuỗi (5 Cửa Hàng - 20 SKU)")
+    macro_kpi_raw = [
+        ("Chi phí lưu kho dư thừa Co (USD)", "994,000 USD", "711,600 USD", "-282,400 USD (-28.4%)", "Tiết kiệm chi phí vận hành kho trực tiếp"),
+        ("Vốn tồn kho đọng thừa (5 Store, USD)", "815,600 USD", "264,080 USD", "-551,520 USD (-67.6%)", "Giải phóng +551,520 USD tiền mặt lưu động"),
+        ("Tỷ lệ đứt hàng nhóm chiến lược (%)", "16.0%", "2.0%", "-14.0 điểm % (-87.5%)", "Bảo vệ 100% doanh thu biên lãi cao P90"),
+        ("Lợi nhuận ròng kỳ vọng mô phỏng (USD)", "8,420,000 USD", "9,285,000 USD", "+865,000 USD (+10.27%)", "Tối ưu hóa doanh thu và cơ cấu chi phí rủi ro")
+    ]
+    cols_t9 = ["Chỉ Số Kinh Tế Vĩ Mô", "Mô Hình Cũ (Baseline)", "Mô Hình Mới (Proposed)", "Chênh Lệch Đối Soát", "Ý Nghĩa Kinh Tế Thực Tiễn"]
+    st.dataframe(pd.DataFrame(macro_kpi_raw, columns=cols_t9), use_container_width=True)
+
     # 4 chỉ số kinh tế vĩ mô Bảng 9
-    col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
+    col_kpi1, col_kpi2, col_kpi3, col_kpi4 = st.columns(4)
     with col_kpi1:
         st.metric("Chi Phí Lưu Kho Dư Thừa Co", "$711,600 USD", delta="-28.4% (Tiết kiệm $282,400 USD)", delta_color="normal")
     with col_kpi2:
-        st.metric("Tỷ Lệ Đứt Hàng Nhóm Chiến Lược", "2.0%", delta="-87.5% (Từ 16.0% xuống 2.0%)", delta_color="normal")
+        st.metric("Tỷ Lệ Đứt Hàng Nhóm Chiến Lược", "2.0%", delta="-14 điểm % (-87.5% tương đối)", delta_color="normal")
     with col_kpi3:
-        st.metric("Vốn Lưu Động Giải Phóng", "+$1,450,000 USD", delta="Tiền mặt giải phóng", delta_color="inverse")
+        st.metric("Vốn Lưu Động Giải Phóng", "+$551,520 USD", delta="Tiền mặt giải phóng 5 store (-67.6%)", delta_color="inverse")
+    with col_kpi4:
+        st.metric("Lợi Nhuận Kỳ Vọng Mô Phỏng", "$9,285,000 USD", delta="+10.27% (+$865,000 USD/năm)", delta_color="normal")
 
-    st.success("🎯 KẾT QUẢ TÀI CHÍNH ĐẠT ĐƯỢC TOÀN CHUỖI 20 SKU: Cắt giảm chi phí tồn kho Co từ $994,000 xuống $711,600 (tiết kiệm trực tiếp $282,400 USD / -28.4%), triệt tiêu 87.5% nguy cơ đứt hàng ở các mặt hàng lãi cao, đồng thời giải phóng hơn 1.45 triệu USD vốn lưu động cho toàn bộ mạng lưới chuỗi bán lẻ!")
+    st.success("🎯 KẾT QUẢ ĐỐI SOÁT MÔ PHỎNG TOÀN CHUỖI 20 SKU: Cắt giảm chi phí tồn kho Co từ $994,000 xuống $711,600 (tiết kiệm trực tiếp $282,400 USD / -28.4%), giảm đứt hàng 14 điểm phần trăm (từ 16.0% xuống 2.0%, tương đương giảm 87.5% tương đối), giải phóng hơn 551.520 USD vốn lưu động tồn kho dư thừa cho mạng lưới 5 cửa hàng và tăng trưởng 10.27% lợi nhuận kỳ vọng theo kịch bản mô phỏng (+865,000 USD/năm) dựa trên hàm mục tiêu Newsvendor!")
 
 # ==================== FOOTER THÔNG TIN ====================
 st.markdown("---")
